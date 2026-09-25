@@ -1,11 +1,11 @@
 // Image file sequence
 const pages = ["1.png", "2.png", "3.png", "4.png"];
 
-// State Tracking
+// State Tracking Variables
 let currentPageIndex = 0;
 let isAnimating = false;
 
-// Mobile Touch Gesture Tracking
+// Mobile Touch Gesture Tracking Variables
 let touchStartX = 0;
 let touchEndX = 0;
 
@@ -34,24 +34,24 @@ function flipToPage(targetIndex) {
         // Swap front face image
         frontImg.src = pages[targetIndex];
         
-        // Reset transform instantly
+        // Reset transform instantly without visual flickering
         bookCard.style.transition = "none";
         bookCard.classList.remove("is-flipped");
 
         // Force browser repaint
         void bookCard.offsetWidth;
 
-        // Restore animation transition
+        // Restore animation transition property
         bookCard.style.transition = "transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1)";
 
-        // Update state
+        // Update active page index & UI
         currentPageIndex = targetIndex;
         updateUI();
         isAnimating = false;
     }, 800);
 }
 
-// Navigation helpers
+// Navigation Helpers
 function nextPage() {
     const nextIndex = (currentPageIndex + 1) % pages.length;
     flipToPage(nextIndex);
@@ -62,7 +62,7 @@ function prevPage() {
     flipToPage(prevIndex);
 }
 
-// Updates pagination indicators & counter
+// Updates pagination indicators & page counter label
 function updateUI() {
     dots.forEach((dot, idx) => {
         if (idx === currentPageIndex) {
@@ -75,10 +75,22 @@ function updateUI() {
     pageCounter.textContent = `Page ${currentPageIndex + 1} of ${pages.length}`;
 }
 
-// Event Listeners
+// Click Event Listeners
 bookCard.addEventListener("click", nextPage);
-nextBtn.addEventListener("click", (e) => { e.stopPropagation(); nextPage(); });
-prevBtn.addEventListener("click", (e) => { e.stopPropagation(); prevPage(); });
+
+if (nextBtn) {
+    nextBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        nextPage();
+    });
+}
+
+if (prevBtn) {
+    prevBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        prevPage();
+    });
+}
 
 dots.forEach((dot) => {
     dot.addEventListener("click", (e) => {
@@ -88,7 +100,7 @@ dots.forEach((dot) => {
     });
 });
 
-// Mobile Swipe Touch Handler
+// Mobile Touch Swipe Gesture Handler
 bookCard.addEventListener("touchstart", (e) => {
     touchStartX = e.changedTouches[0].screenX;
 }, { passive: true });
@@ -101,19 +113,44 @@ bookCard.addEventListener("touchend", (e) => {
 function handleSwipe() {
     const swipeThreshold = 40;
     if (touchEndX < touchStartX - swipeThreshold) {
-        nextPage(); // Swipe left
+        nextPage(); // Swipe Left
     } else if (touchEndX > touchStartX + swipeThreshold) {
-        prevPage(); // Swipe right
+        prevPage(); // Swipe Right
     }
 }
 
-// Download Button Action
-downloadBtn.addEventListener("click", () => {
+// Mobile & Desktop Compatible Download Handler
+downloadBtn.addEventListener("click", async (e) => {
+    e.stopPropagation();
     const currentImgUrl = pages[currentPageIndex];
-    const downloadLink = document.createElement("a");
-    downloadLink.href = currentImgUrl;
-    downloadLink.download = `DORSU_Souvenir_Program_Page_${currentPageIndex + 1}.png`;
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
+    const fileName = `DORSU_Program_Page_${currentPageIndex + 1}.png`;
+
+    try {
+        // Fetch image as Blob to bypass mobile browser download restrictions
+        const response = await fetch(currentImgUrl);
+        const blob = await response.blob();
+        
+        // Create temporary blob object URL
+        const blobUrl = URL.createObjectURL(blob);
+
+        const downloadLink = document.createElement("a");
+        downloadLink.href = blobUrl;
+        downloadLink.download = fileName;
+        
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+
+        // Clean up memory
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
+    } catch (error) {
+        // Fallback for local files (file://) or iOS Safari direct links
+        const fallbackLink = document.createElement("a");
+        fallbackLink.href = currentImgUrl;
+        fallbackLink.target = "_blank";
+        fallbackLink.download = fileName;
+        document.body.appendChild(fallbackLink);
+        fallbackLink.click();
+        document.body.removeChild(fallbackLink);
+    }
 });
