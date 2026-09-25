@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DORSU Banaybanay Campus - Souvenir Program</title>
+    <!-- Web Icon -->
+    <link rel="icon" type="image/png" href="logo.png">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="logo-container">
+            <img src="logo.png" alt="DORSU Logo" class="nav-logo" onerror="this.style.display='none'">
+            <div class="logo-text">
+                <h1>DORSU</h1>
+                <span>Banaybanay Campus</span>
+            </div>
+        </div>
+        <div class="header-badge">
+            11th Anniversary
+        </div>
+    </header>
+
+    <!-- Main Section -->
+    <main class="main-container">
+
+        <!-- Title Banner -->
+        <div class="program-title">
+            <h2>Souvenir Program & Invitation</h2>
+            <p>11th Founding Anniversary Celebration</p>
+        </div>
+
+        <!-- Flip Card Stage -->
+        <div class="book-stage">
+            <div class="book-card" id="bookCard">
+                <div class="card-face card-front">
+                    <img id="frontImg" src="1.png" alt="Program Page 1">
+                </div>
+                <div class="card-face card-back">
+                    <img id="backImg" src="2.png" alt="Program Page 2">
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls Section Below Card -->
+        <section class="controls-section">
+            
+            <div class="tap-instruction">
+                <svg class="tap-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"></path>
+                    <path d="M12 2v2M12 20v2M2 12h2M20 12h2"></path>
+                </svg>
+                <span>Tap or swipe to turn page</span>
+            </div>
+
+            <!-- Minimalist Prev / Next Navigation Row -->
+            <div class="nav-buttons-row">
+                <button class="nav-btn" id="prevBtn" aria-label="Previous Page">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    <span>Prev</span>
+                </button>
+
+                <!-- 4 Pagination Dots -->
+                <div class="dots-pagination">
+                    <button class="dot active" data-index="0" aria-label="Page 1"></button>
+                    <button class="dot" data-index="1" aria-label="Page 2"></button>
+                    <button class="dot" data-index="2" aria-label="Page 3"></button>
+                    <button class="dot" data-index="3" aria-label="Page 4"></button>
+                </div>
+
+                <button class="nav-btn" id="nextBtn" aria-label="Next Page">
+                    <span>Next</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+            </div>
+
+            <!-- Page Counter Label -->
+            <div class="page-counter" id="pageCounter">
+                Page 1 of 4
+            </div>
+
+            <!-- Download Button -->
+            <div class="download-container">
+                <button class="download-btn" id="downloadBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span>Download Page</span>
+                </button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p class="footer-title">Davao Oriental State University — Banaybanay Campus</p>
+        <p class="sub-footer">Rooted in Gratitude, Growing with Purpose</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
